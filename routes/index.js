@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const gymController = require('../controllers/gym-controller')
 
-router.get('/', (req, res, next) => {
-  res.send('Hello World')
-})
+router.get('/gym', gymController.getHomePage)
+router.use('/', (req, res) => res.redirect('/gym'))
 
 module.exports = router
