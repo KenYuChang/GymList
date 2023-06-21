@@ -2,14 +2,13 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const flash = require('connect-flash')
 const session = require('express-session')
+const { getUser } = require('./helpers/auth-helpers')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const routes = require('./routes')
-const db = require('./models')
 const app = express()
 const PORT = process.env.PORT || 3000
 const SESSION_SECRET = 'secret'
 const passport = require('passport')
-const { getUser } = require('./helpers/auth-helpers')
-const handlebarsHelpers = require('./helpers/handlebars-helpers')
 
 app.engine('hbs', exphbs({ extname: '.hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
