@@ -31,5 +31,15 @@ const adminController = {
       next(err)
     }
   },
+  getGym: async (req, res, next) => {
+    try {
+      const id = req.params.id
+      const gym = await Gym.findByPk(id, {
+        raw: true,
+      })
+      if (!gym) throw new Error("Gym didn't exist!")
+      res.render('admin/show', { gym })
+    } catch (err) {}
+  },
 }
 module.exports = adminController
