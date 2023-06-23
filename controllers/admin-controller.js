@@ -1,4 +1,5 @@
 const { Gym } = require('../models')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getAdminPage: async (req, res, next) => {
@@ -18,12 +19,15 @@ const adminController = {
     try {
       const { name, tel, address, openingHours, description } = req.body
       if (!name) throw new Error('Gym name is required')
+      const { file } = req
+      const filePath = await localFileHandler(file)
       await Gym.create({
         name,
         tel,
         address,
         openingHours,
         description,
+        image: filePath || null,
       })
       req.flash('success_messages', 'Gym was successfully created')
       res.redirect('/admin/gym')
@@ -57,7 +61,8 @@ const adminController = {
     try {
       const { name, tel, address, openingHours, description } = req.body
       if (!name) throw new Error('Gym name is required')
-      const gym = await Gym.findByPk(req.params.id)
+      const { file } = req
+      const [gym, filePath] = await Promise.all([Gym.findByPk(req.params.id), localFileHandler(file)])
       if (!gym) throw new Error("Gym didn't exist")
       await gym.update({
         name,
@@ -65,6 +70,7 @@ const adminController = {
         address,
         openingHours,
         description,
+        image: filePath || gym.image,
       })
       req.flash('success_messages', 'Gym was successfully created')
       res.redirect('/admin/gym')
