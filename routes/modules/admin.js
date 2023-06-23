@@ -10,5 +10,7 @@ router.put('/gym/:id', upload.single('image'), adminController.putGym)
 router.delete('/gym/:id', adminController.deleteGym)
 router.get('/gym', adminController.getAdminPage)
 router.post('/gym', upload.single('image'), adminController.postGym)
+router.patch('/users/:id', adminController.patchUser)
+router.get('/users', adminController.getUsers)
 router.get('/', (req, res) => res.redirect('/admin/gym'))
 module.exports = router

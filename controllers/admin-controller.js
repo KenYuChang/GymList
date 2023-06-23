@@ -1,4 +1,4 @@
-const { Gym } = require('../models')
+const { Gym, User } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -85,6 +85,36 @@ const adminController = {
       if (!gym) throw new Error("Gym didn't exist")
       await gym.destroy()
       res.redirect('/admin/gym')
+    } catch (err) {
+      next(err)
+    }
+  },
+  getUsers: async (req, res, next) => {
+    try {
+      const users = await User.findAll({
+        raw: true,
+      })
+      res.render('admin/users', { users })
+    } catch (err) {
+      next(err)
+    }
+  },
+  patchUser: async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.params.id)
+      if (!user) {
+        throw new Error("User doesn't exist")
+      }
+      if (user.email === 'root@example.com') {
+        req.flash('error_messages', '禁止變更 root 權限')
+        return res.redirect('back')
+      } else {
+        await user.update({
+          isAdmin: !user.isAdmin,
+        })
+      }
+      req.flash('success_messages', '使用者權限變更成功')
+      res.redirect('/admin/users')
     } catch (err) {
       next(err)
     }
