@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -7,34 +7,34 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      role: {
-        type: Sequelize.STRING
+      tel: {
+        type: Sequelize.STRING,
       },
-      experience: {
-        type: Sequelize.TEXT
+      address: {
+        type: Sequelize.STRING,
+      },
+      opening_hours: {
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.TEXT
-      },
-      certificate: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updated_at: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+        type: Sequelize.DATE,
+      },
+    })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Gyms');
-  }
-};
+    await queryInterface.dropTable('Gyms')
+  },
+}

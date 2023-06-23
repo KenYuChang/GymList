@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   Gym.init(
     {
       name: DataTypes.STRING,
-      role: DataTypes.STRING,
-      experience: DataTypes.TEXT,
+      tel: DataTypes.STRING,
+      address: DataTypes.STRING,
+      openingHours: DataTypes.STRING,
       description: DataTypes.TEXT,
-      certificate: DataTypes.TEXT,
     },
     {
       sequelize,

@@ -1,1 +1,38 @@
-<h1>Admin Page</h1>
+<h1>GYM's後台管理</h1>
+<a href='/admin/gym/create'>
+  <button type='button' class='btn btn-primary'>Create Coach</button>
+</a>
+<br />
+<br />
+<table class='table align-middle'>
+  <thead class='thead-dark'>
+    <tr>
+      <th scope='col'>#</th>
+      <th scope='col'>Name</th>
+      <th scope='col'></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each gyms}}
+      <tr>
+        <th scope='row'>{{this.id}}</th>
+        <td>{{this.name}}</td>
+        <td>
+          <button type='button' class='btn btn-link'>
+            <a class='btn btn-link link-primary' href='/admin/gym/{{this.id}}'>
+              Show
+            </a>
+          </button>
+          <button type='button' class='btn btn-link'>
+            <a class='btn btn-link link-primary' href='/admin/gym/{{this.id}}/edit'>
+              Edit
+            </a>
+          </button>
+          <form action='/admin/gym/{{this.id}}?_method=DELETE' method='POST' style='display: inline;'>
+            <button type='submit' class='btn btn-link link-danger'>Delete</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
