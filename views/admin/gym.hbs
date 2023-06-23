@@ -1,6 +1,6 @@
 <h1>GYM's後台管理</h1>
 <a href='/admin/gym/create'>
-  <button type='button' class='btn btn-primary'>Create Coach</button>
+  <button type='button' class='btn btn-primary'>Create Gym</button>
 </a>
 <br />
 <br />
@@ -29,7 +29,11 @@
             </a>
           </button>
           <form action='/admin/gym/{{this.id}}?_method=DELETE' method='POST' style='display: inline;'>
-            <button type='submit' class='btn btn-link link-danger'>Delete</button>
+            <button
+              type='submit'
+              class='btn btn-link link-danger'
+              onclick='return confirm(`確定要刪除 {{this.name}} 嗎？`)'
+            >Delete</button>
           </form>
         </td>
       </tr>
