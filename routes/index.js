@@ -21,6 +21,8 @@ router.post(
 //登出
 router.get('/logout', userController.logout)
 
+//gym
+router.get('/gym/:id', authenticated, gymController.getGym)
 router.get('/gym', authenticated, gymController.getHomePage)
 
 router.get('/', (req, res) => res.redirect('/gym'))

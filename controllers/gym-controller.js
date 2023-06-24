@@ -18,5 +18,18 @@ const gymController = {
       next(err)
     }
   },
+  getGym: async (req, res, next) => {
+    try {
+      const gym = await Gym.findByPk(req.params.id, {
+        include: [Category],
+        raw: true,
+        nest: true,
+      })
+      if (!gym) throw new Error("Gym doesn't exist")
+      res.render('show', { gym })
+    } catch (err) {
+      next(err)
+    }
+  },
 }
 module.exports = gymController
