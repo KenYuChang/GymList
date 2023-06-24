@@ -58,5 +58,28 @@ const gymController = {
       res.render('dashboard', { gym })
     } catch (err) {}
   },
+  getFeeds: async (req, res, next) => {
+    try {
+      const [gyms, comments] = await Promise.all([
+        Gym.findAll({
+          limit: 10,
+          order: [['createdAt', 'DESC']],
+          include: [Category],
+          raw: true,
+          nest: true,
+        }),
+        Comment.findAll({
+          limit: 10,
+          order: [['createdAt', 'DESC']],
+          include: [User, Gym],
+          raw: true,
+          nest: true,
+        }),
+      ])
+      res.render('feeds', { gyms, comments })
+    } catch (err) {
+      next(err)
+    }
+  },
 }
 module.exports = gymController
