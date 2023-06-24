@@ -1,6 +1,6 @@
 # GymShark
 
-![screenshot](public/images/截圖 2023-06-24 下午9.47.53)
+![screenshot](https://github.com/KenYuChang/GymShark/blob/master/public/image/%E6%88%AA%E5%9C%96%202023-06-24%20%E4%B8%8B%E5%8D%889.47.53.png)
 
 ## About
 
