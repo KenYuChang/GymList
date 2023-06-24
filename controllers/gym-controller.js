@@ -1,18 +1,25 @@
 const { Gym, Category } = require('../models')
+const { getOffset, getPagination } = require('../helpers/pagination-helper')
 const gymController = {
   getHomePage: async (req, res, next) => {
     try {
+      const DEFAULT_LIMIT = 9
       const categoryId = Number(req.query.categoryId) || ''
+      const page = Number(req.query.page) || 1
+      const limit = Number(req.query.limit) || DEFAULT_LIMIT
+      const offset = getOffset(limit, page)
       const [gyms, categories] = await Promise.all([
-        Gym.findAll({
+        Gym.findAndCountAll({
           include: Category,
           where: categoryId ? { categoryId } : {},
+          limit,
+          offset,
           nest: true,
           raw: true,
         }),
         Category.findAll({ raw: true }),
       ])
-      const data = gyms.map((g) => ({
+      const data = gyms.rows.map((g) => ({
         ...g,
         description: g.description.substring(0, 50),
       }))
@@ -20,6 +27,7 @@ const gymController = {
         gyms: data,
         categories,
         categoryId,
+        pagination: getPagination(limit, page, gyms.count),
       })
     } catch (err) {
       next(err)
