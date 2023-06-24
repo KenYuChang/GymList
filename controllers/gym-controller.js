@@ -1,4 +1,4 @@
-const { Gym, Category } = require('../models')
+const { Gym, Category, Comment, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 const gymController = {
   getHomePage: async (req, res, next) => {
@@ -36,13 +36,14 @@ const gymController = {
   getGym: async (req, res, next) => {
     try {
       const gym = await Gym.findByPk(req.params.id, {
-        include: [Category],
+        include: [Category, { model: Comment, include: User }],
         nest: true,
       })
       if (!gym) throw new Error("Gym doesn't exist")
       res.render('show', { gym: gym.toJSON() })
       await gym.increment('viewCounts')
     } catch (err) {
+      console.error(err)
       next(err)
     }
   },
