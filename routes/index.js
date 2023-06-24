@@ -38,6 +38,10 @@ router.get('/users/:id/edit', authenticated, userController.editUser)
 router.get('/users/:id', authenticated, userController.getUser)
 router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
+//favorites
+router.post('/favorite/:gymId', authenticated, userController.addFavorite)
+router.delete('/favorite/:gymId', authenticated, userController.removeFavorite)
+
 router.get('/', (req, res) => res.redirect('/gym'))
 router.use('/', generalErrorHandler)
 

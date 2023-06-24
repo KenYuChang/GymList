@@ -19,9 +19,11 @@ const gymController = {
         }),
         Category.findAll({ raw: true }),
       ])
+      const favoritedGymIds = req.user ? req.user.FavoritedGym.map((fg) => fg.id) : []
       const data = gyms.rows.map((g) => ({
         ...g,
         description: g.description.substring(0, 50),
+        isFavorited: favoritedGymIds.includes(g.id),
       }))
       return res.render('gym', {
         gyms: data,
@@ -36,11 +38,15 @@ const gymController = {
   getGym: async (req, res, next) => {
     try {
       const gym = await Gym.findByPk(req.params.id, {
-        include: [Category, { model: Comment, include: User }],
+        include: [Category, { model: Comment, include: User }, { model: User, as: 'FavoritedUsers' }],
         nest: true,
       })
       if (!gym) throw new Error("Gym doesn't exist")
-      res.render('show', { gym: gym.toJSON() })
+      const isFavorited = gym.FavoritedUsers.some((f) => f.id === req.user.id)
+      res.render('show', {
+        gym: gym.toJSON(),
+        isFavorited,
+      })
       await gym.increment('viewCounts')
     } catch (err) {
       console.error(err)
