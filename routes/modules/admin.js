@@ -13,6 +13,10 @@ router.get('/gym', adminController.getAdminPage)
 router.post('/gym', upload.single('image'), adminController.postGym)
 router.patch('/users/:id', adminController.patchUser)
 router.get('/users', adminController.getUsers)
+
+//分類
+router.get('/categories/:id', categoryController.getCategories)
+router.put('/categories/:id', categoryController.putCategory)
 router.get('/categories', categoryController.getCategories)
 router.post('/categories', categoryController.postCategory)
 router.get('/', (req, res) => res.redirect('/admin/gym'))
