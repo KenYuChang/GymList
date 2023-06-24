@@ -1,5 +1,4 @@
 # GymShark
-# Simple Twitter
 
 ![screenshot](public/images/截圖 2023-06-24 下午9.47.53)
 
