@@ -2,17 +2,24 @@ const { Gym, Category } = require('../models')
 const gymController = {
   getHomePage: async (req, res, next) => {
     try {
-      const gyms = await Gym.findAll({
-        include: [Category],
-        raw: true,
-        nest: true,
-      })
+      const categoryId = Number(req.query.categoryId) || ''
+      const [gyms, categories] = await Promise.all([
+        Gym.findAll({
+          include: Category,
+          where: categoryId ? { categoryId } : {},
+          nest: true,
+          raw: true,
+        }),
+        Category.findAll({ raw: true }),
+      ])
       const data = gyms.map((g) => ({
         ...g,
         description: g.description.substring(0, 50),
       }))
-      res.render('gym', {
+      return res.render('gym', {
         gyms: data,
+        categories,
+        categoryId,
       })
     } catch (err) {
       next(err)
