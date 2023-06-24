@@ -14,12 +14,19 @@ const adminController = {
       next(err)
     }
   },
-  createGym: (req, res, next) => {
-    return res.render('admin/create-gym')
+  createGym: async (req, res, next) => {
+    try {
+      const categories = await Category.findAll({
+        raw: true,
+      })
+      res.render('admin/create-gym', { categories })
+    } catch (err) {
+      next(err)
+    }
   },
   postGym: async (req, res, next) => {
     try {
-      const { name, tel, address, openingHours, description } = req.body
+      const { name, tel, address, openingHours, description, categoryId } = req.body
       if (!name) throw new Error('Gym name is required')
       const { file } = req
       const filePath = await imgurFileHandler(file)
@@ -30,6 +37,7 @@ const adminController = {
         openingHours,
         description,
         image: filePath || null,
+        categoryId,
       })
       req.flash('success_messages', 'Gym was successfully created')
       res.redirect('/admin/gym')
@@ -51,19 +59,19 @@ const adminController = {
   },
   editGym: async (req, res, next) => {
     try {
-      const id = req.params.id
-      const gym = await Gym.findByPk(id, {
-        raw: true,
-      })
+      const [gym, categories] = await Promise.all([
+        Gym.findByPk(req.params.id, { raw: true }),
+        Category.findAll({ raw: true }),
+      ])
       if (!gym) throw new Error("Gym didn't exist!")
-      res.render('admin/edit-gym', { gym })
+      res.render('admin/edit-gym', { gym, categories })
     } catch (err) {
       next(err)
     }
   },
   putGym: async (req, res, next) => {
     try {
-      const { name, tel, address, openingHours, description } = req.body
+      const { name, tel, address, openingHours, description, categoryId } = req.body
       if (!name) throw new Error('Gym name is required')
       const { file } = req
       const [gym, filePath] = await Promise.all([Gym.findByPk(req.params.id), imgurFileHandler(file)])
@@ -75,6 +83,7 @@ const adminController = {
         openingHours,
         description,
         image: filePath || gym.image,
+        categoryId,
       })
       req.flash('success_messages', 'Gym was successfully created')
       res.redirect('/admin/gym')
