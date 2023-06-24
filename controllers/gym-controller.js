@@ -22,14 +22,25 @@ const gymController = {
     try {
       const gym = await Gym.findByPk(req.params.id, {
         include: [Category],
+        nest: true,
+      })
+      if (!gym) throw new Error("Gym doesn't exist")
+      res.render('show', { gym: gym.toJSON() })
+      await gym.increment('viewCounts')
+    } catch (err) {
+      next(err)
+    }
+  },
+  getDashboard: async (req, res, next) => {
+    try {
+      const gym = await Gym.findByPk(req.params.id, {
+        include: [Category],
         raw: true,
         nest: true,
       })
       if (!gym) throw new Error("Gym doesn't exist")
-      res.render('show', { gym })
-    } catch (err) {
-      next(err)
-    }
+      res.render('dashboard', { gym })
+    } catch (err) {}
   },
 }
 module.exports = gymController

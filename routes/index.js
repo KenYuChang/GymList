@@ -22,6 +22,7 @@ router.post(
 router.get('/logout', userController.logout)
 
 //gym
+router.get('/gym/:id/dashboard', authenticated, gymController.getDashboard)
 router.get('/gym/:id', authenticated, gymController.getGym)
 router.get('/gym', authenticated, gymController.getHomePage)
 
