@@ -34,6 +34,7 @@ router.get('/gym', authenticated, gymController.getHomePage)
 router.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 router.post('/comments', authenticated, commentController.postComment)
 //users
+router.get('/users/top', authenticated, userController.getTopUsers)
 router.get('/users/:id/edit', authenticated, userController.editUser)
 router.get('/users/:id', authenticated, userController.getUser)
 router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
@@ -41,6 +42,10 @@ router.put('/users/:id', authenticated, upload.single('image'), userController.p
 //favorites
 router.post('/favorite/:gymId', authenticated, userController.addFavorite)
 router.delete('/favorite/:gymId', authenticated, userController.removeFavorite)
+
+//followship
+router.post('/following/:userId', authenticated, userController.addFollowing)
+router.delete('/following/:userId', authenticated, userController.removeFollowing)
 
 router.get('/', (req, res) => res.redirect('/gym'))
 router.use('/', generalErrorHandler)
