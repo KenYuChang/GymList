@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Gym extends Model {
     static associate(models) {
       Gym.belongsTo(models.Category, { foreignKey: 'categoryId' })
+      Gym.hasMany(models.Comment, { foreignKey: 'gymId' })
     }
   }
   Gym.init(
