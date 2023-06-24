@@ -87,5 +87,25 @@ const gymController = {
       next(err)
     }
   },
+  getTopGyms: async (req, res, next) => {
+    try {
+      const gyms = await Gym.findAll({
+        include: [{ model: User, as: 'FavoritedUsers' }],
+      })
+      const topGyms = gyms
+        .map((g) => ({
+          ...g.toJSON(),
+          description: g.description.substring(0, 50),
+          favoritedCount: g.FavoritedUsers.length,
+          isFavorited: req.user && req.user.FavoritedGym.some((f) => f.id === g.id),
+        }))
+        .sort((a, b) => b.favoritedCount - a.favoritedCount)
+        .slice(0, 10)
+
+      res.render('top-gym', { gyms: topGyms })
+    } catch (err) {
+      next(err)
+    }
+  },
 }
 module.exports = gymController

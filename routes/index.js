@@ -25,6 +25,7 @@ router.get('/logout', userController.logout)
 
 //gym
 router.get('/gym/feeds', authenticated, gymController.getFeeds)
+router.get('/gym/top', authenticated, gymController.getTopGyms)
 router.get('/gym/:id/dashboard', authenticated, gymController.getDashboard)
 router.get('/gym/:id', authenticated, gymController.getGym)
 
