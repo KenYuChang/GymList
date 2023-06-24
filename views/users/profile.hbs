@@ -2,31 +2,138 @@
   <div class='card mb-3' style='width: 100%;'>
     <div class='row g-0'>
       <div class='col-md-3'>
-        {{#if user.image}}
-          <img
-            src='{{user.image}}'
-            width='300px'
-            height='300px'
-            style='transition: opacity 0.5s; opacity:0;'
-            onload='this.style.opacity=1;'
-          />
-        {{else}}
-          <img
-            src='https://via.placeholder.com/300'
-            width='300px'
-            height='300px'
-            style='transition: opacity 0.5s; opacity:0;'
-            onload='this.style.opacity=1;'
-          />
-        {{/if}}
+        <img
+          src='{{user.image}}'
+          class='img-fluid rounded-start'
+          alt='user image'
+          style='width:300px;height:300px; object-fit: cover;'
+        />
       </div>
       <div class='col-md-9'>
         <div class='card-body'>
           <h5 class='card-title'>{{user.name}}</h5>
           <p class='card-text'>{{user.email}}</p>
-          <br />
-          <br />
+          <ul class='list-unstyled list-inline'>
+            <li><strong class='text-primary'>{{user.Comments.length}}</strong>已評論健身房</li>
+            <li><strong class='text-primary'>{{user.FavoritedGym.length}}</strong>已收藏健身房</li>
+            <li><strong class='text-primary'>{{user.Followings.length}}</strong>Followings</li>
+            <li><strong class='text-primary'>{{user.Followers.length}}</strong>Followers</li>
+          </ul>
           <a class='btn btn-primary' href='/users/{{user.id}}/edit'>Edit</a>
+        </div>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='col-md-4'>
+        {{! followings }}
+        <div class='card'>
+          <div class='card-header'>
+            <strong>{{user.Followings.length}}</strong>
+            followings (追蹤者)
+          </div>
+          <div class='card-body'>
+            {{#each user.Followings}}
+              <a href='/users/{{this.id}}' class='text-decoration-none'>
+                {{#if this.image}}
+                  <img
+                    src='{{this.image}}'
+                    width='60'
+                    height='60'
+                    class='avatar'
+                    style='transition: opacity 0.5s; opacity:0;'
+                    onload='this.style.opacity=1;'
+                  />
+                {{else}}
+                  <img
+                    src='https://via.placeholder.com/60'
+                    width='60'
+                    height='60'
+                    class='avatar'
+                    style='transition: opacity 0.5s; opacity:0;'
+                    onload='this.style.opacity=1;'
+                  />
+                {{/if}}
+              </a>
+            {{/each}}
+          </div>
+        </div>
+        <br />
+        {{! followers }}
+        <div class='card'>
+          <div class='card-header'>
+            <strong>{{user.Followers.length}}</strong>
+            followers (追隨者)
+          </div>
+          <div class='card-body'>
+            {{#each user.Followers}}
+              <a href='/users/{{this.id}}' class='text-decoration-none'>
+                {{#if this.image}}
+                  <img
+                    src='{{this.image}}'
+                    width='60'
+                    height='60'
+                    class='avatar'
+                    style='transition: opacity 0.5s; opacity:0;'
+                    onload='this.style.opacity=1;'
+                  />
+                {{else}}
+                  <img
+                    src='https://via.placeholder.com/60'
+                    width='60'
+                    height='60'
+                    class='avatar'
+                    style='transition: opacity 0.5s; opacity:0;'
+                    onload='this.style.opacity=1;'
+                  />
+                {{/if}}
+              </a>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      {{! comments }}
+      <div class='col-md-8'>
+        <div class='card'>
+          <div class='card-header'>
+            <strong>{{user.Comments.length}}</strong>
+            已評論健身房
+          </div>
+          <div class='card-body'>
+            {{#each user.Comments}}
+              <a href='/gym/{{this.Gym.id}}' class='text-decoration-none'>
+                <img
+                  src={{this.Gym.image}}
+                  width='80'
+                  height='80'
+                  class='avatar'
+                  style='transition: opacity 0.5s; opacity:0;'
+                  onload='this.style.opacity=1;'
+                />
+              </a>
+            {{/each}}
+          </div>
+        </div>
+        <br />
+        <div class='card'>
+          <div class='card-header'>
+            <strong>{{user.FavoritedGym.length}}</strong>
+            收藏的健身房
+          </div>
+          <div class='card-body'>
+            {{#each user.FavoritedGym}}
+              <a href='/gym/{{this.id}}' class='text-decoration-none'>
+                <img
+                  src='{{this.image}}'
+                  width='80'
+                  height='80'
+                  class='avatar'
+                  style='transition: opacity 0.5s; opacity:0;'
+                  onload='this.style.opacity=1;'
+                />
+              </a>
+            {{/each}}
+          </div>
         </div>
       </div>
     </div>

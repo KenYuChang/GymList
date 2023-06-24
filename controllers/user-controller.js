@@ -41,16 +41,25 @@ const userController = {
   getUser: async (req, res, next) => {
     try {
       const user = await User.findByPk(req.params.id, {
-        raw: true,
+        include: [
+          { model: Comment, include: Gym },
+          { model: Gym, as: 'FavoritedGym' },
+          { model: User, as: 'Followings' },
+          { model: User, as: 'Followers' },
+        ],
+        order: [[Comment, 'id', 'DESC']],
         nest: true,
       })
-      if (!user) throw new Error("User didn't exist!")
+      if (!user) throw new Error("User doesn't exist!")
       if (req.user && user.id !== req.user.id) {
-        req.flash('error_messages', 'You do not have permission')
-        return res.redirect(`/users/${req.user.id}`)
+        req.flash('error_messages', "You don't have permission!")
+        res.redirect(`/users/${req.user.id}`)
       }
-
-      res.render('users/profile', { user })
+      const isFollowed = req.user && req.user.Followings.some((f) => f.id === user.id)
+      res.render('users/profile', {
+        user: user.toJSON(),
+        isFollowed,
+      })
     } catch (err) {
       next(err)
     }
