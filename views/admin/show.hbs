@@ -1,6 +1,7 @@
 <div class='row'>
   <div class='col-md-12'>
     <h1>{{gym.name}}</h1>
+    <h5>{{gym.Category.name}}</h5>
   </div>
   <div class='col-md-4'>
     <img
@@ -15,10 +16,11 @@
         <li><strong>Opening Hour:</strong> {{gym.openingHours}}</li>
         <li><strong>Tel:</strong> {{gym.tel}}</li>
         <li><strong>Address:</strong> {{gym.address}}</li>
-        <li><strong>Description:</strong></li>
       </ul>
-      <p style='white-space: break-spaces;'>{{gym.description}}</p>
     </div>
+  </div>
+  <div class='col-md-8'>
+    <p style='white-space: break-spaces;'>{{gym.description}}</p>
   </div>
   <hr />
 </div>

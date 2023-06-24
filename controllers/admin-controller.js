@@ -1,4 +1,4 @@
-const { Gym, User } = require('../models')
+const { Gym, User, Category } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -6,6 +6,8 @@ const adminController = {
     try {
       const gyms = await Gym.findAll({
         raw: true,
+        nest: true,
+        include: [Category],
       })
       res.render('admin/gym', { gyms })
     } catch (err) {
@@ -40,6 +42,8 @@ const adminController = {
       const id = req.params.id
       const gym = await Gym.findByPk(id, {
         raw: true,
+        nest: true,
+        include: [Category],
       })
       if (!gym) throw new Error("Gym didn't exist!")
       res.render('admin/show', { gym })
