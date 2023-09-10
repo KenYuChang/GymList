@@ -14,13 +14,6 @@ Mocking the basic functions as below:
 - popular users list, popular gyms, newest gym and comments
   <br><br>
 
-## Website
-
----
-
-[Visit our beautiful website!](https://damp-thicket-93925-2b7d12d0c561.herokuapp.com/signin)
-<br><br>
-
 
 ## Environment
 
